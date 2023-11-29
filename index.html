@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Iframe</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .media {
+            cursor: pointer;
+        }
+        input {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="media" onclick="showFrame()">
+    <img id="mediaImg" src="" alt="">
+</div>
+
+<input type="text" id="srcInput" placeholder="Insira o link src">
+<input type="text" id="imgInput" placeholder="Insira o link da imagem">
+<input type="text" id="altInput" placeholder="Insira o nome da mídia">
+
+<button onclick="generateIframe()">Gerar Iframe</button>
+
+<div id="iframeContainer"></div>
+
+<button id="copyButton" onclick="copyToClipboard()" style="display: none;">Copiar</button>
+
+<script>
+    function showFrame() {
+        const img = document.getElementById('imgInput').value;
+        const alt = document.getElementById('altInput').value;
+
+        const mediaImg = document.getElementById('mediaImg');
+        mediaImg.src = img;
+        mediaImg.alt = alt;
+
+        // Mostrar o botão de copiar
+        document.getElementById('copyButton').style.display = 'block';
+    }
+
+    function generateIframe() {
+        const src = document.getElementById('srcInput').value;
+        const img = document.getElementById('imgInput').value;
+        const alt = document.getElementById('altInput').value;
+
+        const iframeCode = `<div class="media" onclick="showFrame('${src}')">
+                                <img src="${img}" alt="${alt}">
+                            </div>`;
+        
+        // Exibir o código HTML do iframe na página
+        document.getElementById('iframeContainer').innerText = iframeCode;
+
+        // Mostrar o botão de copiar
+        document.getElementById('copyButton').style.display = 'block';
+
+        // Imprimir o código no console (opcional)
+        console.log(iframeCode);
+    }
+
+    function copyToClipboard() {
+        const iframeContainer = document.getElementById('iframeContainer');
+        const range = document.createRange();
+        range.selectNode(iframeContainer);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+        alert('Código copiado para a área de transferência!');
+    }
+</script>
+
+</body>
+</html>
